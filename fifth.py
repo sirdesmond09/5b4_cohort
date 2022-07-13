@@ -142,12 +142,47 @@ from numpy import average
 
 
 ###Q2
-user = input("enter your sentence:  ")
-a = user.split()
-print(a)
-a[0] = a[0].upper()
-print(a)
-print(" ".join(a))
+# user = input("enter your sentence:  ")
+# a = user.split()
+# print(a)
+# a[0] = a[0].upper()
+# print(a)
+# print(" ".join(a))
 
 
 ###Q3
+#Write a program with the sentence "I am learning python". When your program is run, the string "I" should be changed to "you"
+
+
+a = "I am learning python"
+print(a.replace("I", "You"))
+
+
+## Q4
+# Write a program that takes the string "I hope you had fun today in class". Print the number of times that the string "a" appears in the sentence.
+
+
+b = "I hope you had fun today in class"
+print(b.count("a"))
+
+
+##Q5
+def check_fermat(a,b,c,n):
+    if n > 2 and (a**n + b**n == c**n):
+        print("Holy smokes, Fermat was wrong!")
+    else:
+        print("No, that doesn't work.")
+        
+        
+        
+def get_data():
+    a =int(input())
+    b =int(input())
+    c =int(input())
+    n =int(input())
+    
+    check_fermat(a,b,c,n)
+    
+    
+get_data()
+    
