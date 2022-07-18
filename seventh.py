@@ -48,11 +48,58 @@ data = {"5":8,
     
 
     
-a = 100
-count = 0
-while a > 0:
-    print(a)
-    a-=1
-    count += 1
-    if count ==  3:
-        break
+# a = 100
+# count = 0
+# while a > 0:
+#     print(a)
+#     a-=1
+#     count += 1
+#     if count ==  3:
+#         break
+    
+1,2,2,3,3,4,5,5,6
+    
+    
+## Correction
+array = [3,2,5,6,3,5,2,1,4]
+
+def mean(arr):
+    """Calculates the mean of a given array
+
+    Args:
+        arr (list): The array to calculate the mean
+
+    Returns:
+        average: The mean value
+    """
+    return sum(arr)/len(arr)
+
+
+# def median(arr):
+#     """Generate the median of a given array"""
+    
+#     arr.sort()
+    
+#     mid_point = len(arr)//2
+
+    
+#     if len(arr)%2==0:
+#         return (arr[mid_point] + arr[mid_point-1])/2
+    
+#     else:
+#         return arr[mid_point]
+
+def median(list_of_numbers):
+    list_of_numbers.sort()
+    if len(list_of_numbers) % 2 == 1:
+        middle_num = int((len(list_of_numbers) -1) / 2)
+        return list_of_numbers[middle_num] 
+    elif len(list_of_numbers) % 2 == 0:
+        middle_num1 = int(len(list_of_numbers) / 2)
+        middle_num2 = int(len(list_of_numbers) / 2) -1
+        mean_of_median = mean([list_of_numbers[middle_num1],list_of_numbers[middle_num2]])
+        return mean_of_median
+    
+
+# print(mean(array))
+print(median(array))
