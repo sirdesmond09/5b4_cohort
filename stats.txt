@@ -1,0 +1,7 @@
+================
+The mean is 23.9.
+The median is 24.0. 
+The mode is None.
+The standard deviation is 3.194.
+The variance is 10.2.
+================
