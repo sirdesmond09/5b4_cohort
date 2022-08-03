@@ -1,0 +1,1 @@
+{'0066683940': [{'amount': 1500.0, 'action': 'transfer', 'trans_type': 'credit'}], '0682694272': [{'amount': 4000.0, 'action': 'deposit', 'trans_type': 'credit'}, {'amount': 1500.0, 'action': 'transfer', 'trans_type': 'debit'}]}

@@ -1,1 +1,1 @@
-{}
+{'0066683940': {'first_name': 'Desmond', 'last_name': 'Nne', 'login_pin': '2422', 'transaction_pin': '3242', 'balance': 1500.0}, '0682694272': {'first_name': 'Desmond', 'last_name': 'Moe', 'login_pin': '4245', 'transaction_pin': '3242', 'balance': 2500.0}}

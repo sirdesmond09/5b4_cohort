@@ -2,8 +2,11 @@ import random
 
 with open("bank_db.txt") as file:
     data = eval(file.read())
+with open("trans.txt") as file:
+    trans_data = eval(file.read())
+    
 
-def signup(details : dict):
+def signup(details : dict, trans:dict):
     """ This function takes in a dictionary, asks the user for input details then generates a random account number for the user. It then adds the user data to the original dictionary and returns the updated dictionary. """
     
     
@@ -24,10 +27,11 @@ def signup(details : dict):
                     "login_pin" : login_pin,
                     "transaction_pin": trans_pin,
                     "balance" : 0}
+    trans[var] = []
     
     print(f"You have successfully created an account. Your account number is {var}. You can login to your account using your login code: {login_pin}")
     
-    return details
+    return details, trans
 
 
 def login( data: dict):
@@ -36,7 +40,7 @@ def login( data: dict):
     user_detail = data.get(acc_num)
     
     if user_detail and user_detail["login_pin"] == login_pin:
-        return user_detail
+        return user_detail, acc_num
     
     else:
         return False
@@ -47,7 +51,7 @@ def deposit(user_detail:dict):
     amount = float(input("How much to deposit\n>"))
     user_detail["balance"] += amount
     print(f"\nYour wallet has been credited with #{amount}")
-    return user_detail
+    return user_detail, amount
 
 
 def withdraw(user_detail:dict):
@@ -60,7 +64,7 @@ def withdraw(user_detail:dict):
         if user_detail["balance"] > amount:
             user_detail["balance"] -= amount
             print(f"\nWithdraw of #{amount} was successful")
-            return user_detail
+            return user_detail, amount
         else:
             print("\nInsufficient funds to withdraw")
         
@@ -78,14 +82,27 @@ def transfer(user_detail:dict, data:dict):
             user_detail["balance"] -= amount
             beneficiary_detail["balance"] += amount
             print(f"Transfer of #{amount} was successful")
-            return user_detail, data
+            return user_detail, data,amount, beneficiary
         
         else:
+            amount=None
             print("\nInsufficient funds to transfer")
-            return user_detail, data
+            return user_detail, data,amount, beneficiary
     else:
+        amount=None
         print("\nUnable to transfer to unknown account.")
-        return user_detail, data
+        return user_detail, data, amount, beneficiary
+        
+        
+def update_transaction(trans_data:dict, acc_num:str, trans_type:str, action:str, amount:float):
+    trans_detail = {
+        "amount":amount,
+        "action":action,
+        "trans_type":trans_type,
+    }
+    trans_data[acc_num].append(trans_detail)
+    return trans_data
+        
         
         
 print("Welcome to ClassikAlat")
@@ -95,9 +112,10 @@ while True:
     choice = input(">").lower()
     
     if choice == "s":
-        data = signup(data)
+        data, trans_data = signup(data, trans_data)
+
     elif choice == "l":
-        user_detail = login(data)
+        user_detail, acc_num = login(data)
         
         if user_detail:
             print("\nWelcome", user_detail["first_name"])
@@ -107,18 +125,45 @@ while True:
                 2. Deposit
                 3. Withdraw
                 4. Transfer
-                5. Logout
+                5. Recent Transactions
+                6. Logout
                     """)
                 action  = input(">")
                 if action == "1":
                     print(f"\nYour account balance is #{user_detail['balance']}")
                 elif action == "2":
-                    user_detail = deposit(user_detail)
+                    user_detail, amount = deposit(user_detail)
+                    trans_data = update_transaction(trans_data, acc_num, "credit","deposit", amount)
+                    
                 elif action == "3":
-                    user_detail = withdraw(user_detail)
+                    user_detail, amount = withdraw(user_detail)
+                    trans_data = update_transaction(trans_data, acc_num, "debit","withdraw", amount)
                 elif action == "4":
-                    user_detail, data = transfer(user_detail, data)
+                    user_detail, data,amount,beneficiary  = transfer(user_detail, data)
+                    
+                    if amount is not None:
+                        trans_data = update_transaction(trans_data, acc_num, "debit","transfer", amount)
+                        trans_data = update_transaction(trans_data, beneficiary, "credit","transfer", amount)
                 elif action == "5":
+                    arr = trans_data.get(acc_num)
+                    arr.reverse()
+                    if len(arr) >= 5:
+                        for i in range(5):
+                            transaction = arr[i]
+                            print("===================")
+                            print(f"Amount: #{transaction['amount']}") 
+                            print(f"Action: {transaction['action']}")
+                            print(f"Transaction type:{transaction['trans_type']}")
+                        print("===================\n")
+                    else:
+                        for i in range(len(arr)):
+                            transaction = arr[i]
+                            print("===================")
+                            print(f"Amount: #{transaction['amount']}") 
+                            print(f"Action: {transaction['action']}")
+                            print(f"Transaction type: {transaction['trans_type']}")
+                        print("===================\n")
+                elif action == "6":
                     print("\nLog out complete!")
                     break
                 else:
@@ -134,3 +179,7 @@ while True:
         
 with open("bank_db.txt", "w") as file:
     file.write(str(data))
+with open("trans.txt", "w") as file:
+    file.write(str(trans_data))
+    
+
