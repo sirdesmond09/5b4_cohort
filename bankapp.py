@@ -98,10 +98,11 @@ while True:
         data = signup(data)
     elif choice == "l":
         user_detail = login(data)
-        print("Welcome", user_detail["first_name"])
+        
         if user_detail:
+            print("\nWelcome", user_detail["first_name"])
             while True:
-                print("""\nEnter the corresponding number for the action you wish to perform.
+                print("""Enter the corresponding number for the action you wish to perform.
                 1. Check Balance
                 2. Deposit
                 3. Withdraw
