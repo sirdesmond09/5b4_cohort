@@ -1,15 +1,7 @@
 import random
 
-data = {
-    '0123445677' : {
-        "first_name":"John",
-        "last_name" : "Doe ",
-        "login_pin" : "8424",
-        "transaction_pin": "0934",
-        "balance" : 0
-    }
-}
-
+with open("bank_db.txt") as file:
+    data = eval(file.read())
 
 def signup(details : dict):
     """ This function takes in a dictionary, asks the user for input details then generates a random account number for the user. It then adds the user data to the original dictionary and returns the updated dictionary. """
@@ -139,4 +131,5 @@ while True:
     else:
         print("\nInvalid input")
         
-print(data)
+with open("bank_db.txt", "w") as file:
+    file.write(str(data))
