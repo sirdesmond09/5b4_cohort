@@ -7,7 +7,11 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from account.permissions import IsAdminOrReadOnly
 
+# from rest_framework.authentication import TokenAuthentication
+# from rest_framework.permissions import IsAdminUser
 
 class CategoryView(APIView):
     
@@ -15,6 +19,8 @@ class CategoryView(APIView):
     Retrieve all or create new category instances.
     """
     
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminOrReadOnly]
     
     def get(self, request, format=None):
         
@@ -61,6 +67,9 @@ class CategoryDetailView(APIView):
     """
     Retrieve, update or delete a category instance.
     """
+    
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminOrReadOnly]
     
     def get_object(self, category_id):
         """Get a single category instance using the provided category_id."""
@@ -124,6 +133,9 @@ class ProductListView(APIView):
     Retrieve all or create new category instances.
     """
     
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminOrReadOnly]
+    
     def get(self, request, format=None):
         
         objs = Product.objects.all() #get the data
@@ -163,6 +175,9 @@ class ProductDetailView(APIView):
     """
     Retrieve, update or delete a product instance.
     """
+    
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminOrReadOnly]
     
     def get_object(self, product_id):
         """Get a single product instance using the provided category_id."""
